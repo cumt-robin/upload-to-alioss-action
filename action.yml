@@ -1,0 +1,25 @@
+name: 'Upload to Ali OSS'
+description: '上传静态文件到阿里云OSS存储'
+inputs:
+  access_key_id:
+    description: '阿里云 Access Key ID'
+    required: true
+  access_key_secret:
+    description: '阿里云 Access Key Secret'
+    required: true
+  region:
+    description: 'OSS地域'
+    required: true
+  bucket:
+    description: '阿里云 OSS Bucket 名称'
+    required: true
+  local_dir:
+    description: '本地待上传目录'
+    required: true
+    default: 'dist'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+branding:
+  icon: 'upload-cloud'
+  color: 'blue'
