@@ -53,7 +53,7 @@ jobs:
 | `access_key_id`| 是       | 无     | 阿里云 Access Key ID          |
 | `access_key_secret`| 是       | 无     | 阿里云 Access Key Secret           |
 | `bucket`    | 是       | 无     | 阿里云Bucket名称           |
-| `region`    | 是       | `z0`   | 阿里云地域，参考[官方文档](https://help.aliyun.com/zh/oss/regions-and-endpoints) |
+| `region`    | 是       | 无   | 阿里云地域，参考[官方文档](https://help.aliyun.com/zh/oss/regions-and-endpoints) |
 | `local_dir` | 是       | `dist` | 本地待上传目录               |
 
 ## 开发与贡献

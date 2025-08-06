@@ -1,7 +1,7 @@
 const path = require("path");
 const fse = require("fs-extra");
 const core = require('@actions/core');
-const { ossClient } = require("./oss-client.cjs");
+const { ossClient } = require("./oss-client.js");
 
 async function getAllFiles(dirPath, relativePath = "", arrayOfFiles = []) {
     const files = await fse.readdir(dirPath);
@@ -22,7 +22,8 @@ async function getAllFiles(dirPath, relativePath = "", arrayOfFiles = []) {
     return arrayOfFiles;
 }
 
-async function uploadDistFiles(distDir) {
+async function run() {
+    const distDir = core.getInput('local_dir')
     try {
         const files = await getAllFiles(distDir);
         const otherFiles = files.filter((file) => file !== "index.html");
@@ -32,17 +33,17 @@ async function uploadDistFiles(distDir) {
                 return ossClient.put(filePath, path.join(distDir, file));
             }),
         );
-        console.log("Other files uploaded successfully!");
-        if (fse.existsSync(path.join(distDir, "index.html"))) {
+        core.info("Other files uploaded successfully!");
+        if (files.includes("index.html")) {
             await ossClient.put("index.html", path.join(distDir, "index.html"), {
                 headers: { "Cache-Control": "private, no-store, no-cache, must-revalidate, proxy-revalidate" },
             });
-            console.log("index.html uploaded successfully!");
+            core.info("index.html uploaded successfully!");
         }
-        console.log("All files uploaded successfully!");
+        core.info("All files uploaded successfully!");
     } catch (err) {
-        console.error("Error uploading files:", err);
+        core.error(err);
     }
 }
 
-uploadDistFiles(core.getInput('local_dir'));
+run();
